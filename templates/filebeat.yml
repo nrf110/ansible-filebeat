@@ -1,0 +1,20 @@
+filebeat:
+  config_dir: {{ filebeat_config_dir }}
+
+output:
+  logstash:
+    hosts: {{ filebeat.logstash_hosts | to_nice_yaml }}
+
+logging:
+  level: info
+
+  # enable file rotation with default configuration
+  to_files: true
+
+  # do not log to syslog
+  to_syslog: false
+
+  files:
+    path: /var/log/filebeat
+    name: filebeat.log
+    keepfiles: 7

@@ -1,0 +1,6 @@
+- name: Start Filebeat Service
+  service:
+    name: filebeat
+    state: started
+    enabled: yes
+    register: filebeat_started

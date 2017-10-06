@@ -1,0 +1,11 @@
+---
+- include: install.yml
+  tags: [install]
+
+- include: config.yml
+  tags: [config]
+
+- include: service.yml
+  tags: [service]
+
+- meta: flush_handlers

@@ -1,0 +1,4 @@
+- name: Install Filebeat
+  state: present
+  deb: "{{ filebeat_source_url }}"
+  notify: restart filebeat

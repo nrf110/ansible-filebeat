@@ -1,0 +1,9 @@
+filebeat_version: 5.3.0
+filebeat_source_url: "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_version }}amd64.deb"
+filebeat_config_dir: /etc/filebeat/conf.d
+filebeat_config_file: /etc/filebeat/filebeat.yml
+filebeat_logstash_hosts:
+  - "localhost:5044"
+filebeat_fields: {}
+filebeat_pki_key_dir: /etc/pki/private
+filebeat_pki_cert_dir: /etc/pki/certs

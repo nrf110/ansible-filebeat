@@ -1,0 +1,54 @@
+- name: Filebeat Config Directory
+  file:
+    path: "{{ filebeat_config_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Filebeat Config File
+  template:
+    src: filebeat.yml.j2
+    dest: "{{ filebeat_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart filebeat
+
+- name: Create PKI Folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  with_items:
+    - "{{ filebeat_pki_key_dir }}"
+    - "{{ filebeat_pki_cert_dir }}"
+  when: filebeat.pki is defined
+
+- name: Create PKI Keys
+  copy:
+    content: "{{ item.key }}"
+    dest: "{{ filebeat_pki_key_dir }}/{{ item.name }}.key"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: filebeat_pki_key_pairs
+  when: filebeat_pki_key_pairs is defined
+
+- name: Create PKI Certs
+  copy:
+    content: "{{ item.cert }}"
+    dest: "{{ filebeat_pki_cert_dir }}/{{ item.name }}.crt"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: filebeat_pki_key_pairs
+  when: filebeat_pki_key_pairs is defined
+
+- name: Copy SystemD file
+  template:
+    src: filebeat.service.j2
+    dest: /usr/lib/systemd/system/filebeat.service
+    mode: 0644
+    force: yes
+    notify: restart filebeat
