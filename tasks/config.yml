@@ -23,7 +23,6 @@
   with_items:
     - "{{ filebeat_pki_key_dir }}"
     - "{{ filebeat_pki_cert_dir }}"
-  when: filebeat.pki is defined
 
 - name: Create PKI Keys
   copy:
@@ -44,11 +43,3 @@
     mode: 0644
   with_items: filebeat_pki_key_pairs
   when: filebeat_pki_key_pairs is defined
-
-- name: Copy SystemD file
-  template:
-    src: filebeat.service.j2
-    dest: /usr/lib/systemd/system/filebeat.service
-    mode: 0644
-    force: yes
-    notify: restart filebeat

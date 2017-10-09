@@ -3,7 +3,7 @@ filebeat:
 
 output:
   logstash:
-    hosts: {{ filebeat.logstash_hosts | to_nice_yaml }}
+    hosts: {{ filebeat_logstash_hosts | to_nice_yaml }}
 
 logging:
   level: info
